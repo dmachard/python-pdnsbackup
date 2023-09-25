@@ -1,0 +1,1 @@
+from pdnsbackup.backup import start_backup
