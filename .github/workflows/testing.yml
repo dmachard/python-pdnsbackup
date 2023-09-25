@@ -9,7 +9,7 @@ on:
       - main
       
 jobs:
-  publicaddr:
+  tests:
     runs-on: ubuntu-22.04
 
     strategy:
