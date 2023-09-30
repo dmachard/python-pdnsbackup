@@ -5,7 +5,7 @@ Backup tool for PowerDNS database.
 ## Docker run
 
 ```bash
-sudo docker run -d --env-file ./.env --name=pdnsbackup dmachard/pdnsbackup:latest
+sudo docker run --rm --env-file ./.env --name=pdnsbackup dmachard/pdnsbackup:latest
 ```
 
 ## Environment variables
@@ -13,7 +13,6 @@ sudo docker run -d --env-file ./.env --name=pdnsbackup dmachard/pdnsbackup:lates
 | Variables | Description |
 | ------------- | ------------- |
 | PDNSBACKUP_DEBUG | debug mode 1 or 0 |
-| PDNSBACKUP_INTERVAL | delay between backup, default is 3600s |
 
 | Variables | Description |
 | ------------- | ------------- |
@@ -46,11 +45,25 @@ Install requirements and run-it
 
 ```bash
 python3 -m pip install -r requirements.txt
-python3 -c "import pdnsbackup; pdnsbackup.start_backup();"
+python3 -c "import pdnsbackup; pdnsbackup.backup();"
 ```
 
 ## Build and run from docker image
 
 ```bash
 sudo docker build . --file Dockerfile -t pdnsbackup
+```
+
+## Run tests
+
+Run all tests
+
+```bash
+python -m unittest discover -v tests/
+```
+
+Run one by one
+
+```bash
+python -m unittest -v tests.test_parser
 ```
