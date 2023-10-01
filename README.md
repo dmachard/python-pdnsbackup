@@ -1,5 +1,11 @@
 # What is this?
 
+![Build](https://github.com/dmachard/python-pdnsbackup/workflows/Build/badge.svg) ![Testing](https://github.com/dmachard/python-pdnsbackup/workflows/Testing/badge.svg) ![Pypi](https://github.com/dmachard/python-pdnsbackup/workflows/Publish/badge.svg)
+
+![powerdns auth 4.8.x](https://img.shields.io/badge/pdns%204.8.x-tested-green)
+
+![python 3.11.x](https://img.shields.io/badge/python%203.11.x-tested-blue)
+
 Backup tool for PowerDNS database.
 
 ## Docker run
