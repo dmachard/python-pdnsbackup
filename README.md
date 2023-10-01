@@ -65,6 +65,7 @@ python -m unittest discover -v tests/
 Run one by one
 
 ```bash
+python -m unittest -v tests.test_config
 python -m unittest -v tests.test_parser
 python -m unittest -v tests.test_export
 ```

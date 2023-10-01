@@ -53,7 +53,7 @@ class TestExportFile(unittest.TestCase):
     def test_export_zone_direct(self):
         self.maxDiff = None
 
-        cfg = {"file_enable": True, "file_path_output": "/tmp/", "file_path_bind": "/var/lib/powerdns/"}
+        cfg = {"file-enabled": True, "file-path-output": "/tmp/", "file-path-bind": "/var/lib/powerdns/"}
         export.backup(cfg, zone_direct)
 
         for zone, data in zone_direct.items():
@@ -62,7 +62,7 @@ class TestExportFile(unittest.TestCase):
                 
     def test_export_zone_reverse(self):
         self.maxDiff = None
-        cfg = {"file_enable": True, "file_path_output": "/tmp/", "file_path_bind": "/var/lib/powerdns/"}
+        cfg = {"file-enabled": True, "file-path-output": "/tmp/", "file-path-bind": "/var/lib/powerdns/"}
         export.backup(cfg, zone_reverse)
 
         for zone, data in zone_reverse.items():
@@ -71,7 +71,7 @@ class TestExportFile(unittest.TestCase):
 
     def test_export_named(self):
         
-        cfg = {"file_enable": True, "file_path_output": "/tmp/", "file_path_bind": "/var/lib/powerdns/"}
+        cfg = {"file-enabled": True, "file-path-output": "/tmp/", "file-path-bind": "/var/lib/powerdns/"}
         export.backup(cfg, zone_direct)
 
         for zone, data in zone_direct.items():
