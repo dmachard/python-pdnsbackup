@@ -10,7 +10,7 @@ class args:
 class TestConfig(unittest.TestCase):
     def test_default_config(self):
         """read default config"""
-        cfg = pdnsbackup.setup_config(args=args())
+        cfg = pdnsbackup.setup_config(args=args(), ignore_env=True)
 
         self.assertFalse(cfg["debug"])
         self.assertTrue(cfg["gmysql-enabled"])

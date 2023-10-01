@@ -38,7 +38,7 @@ def setup_logger(cfg):
 
     logger.addHandler(lh)
 
-def setup_config(args):
+def setup_config(args, ignore_env=False):
     cfg = {}
     
     # read default config
@@ -62,6 +62,8 @@ def setup_config(args):
             print("External config invalid! %s" % e, sys.stderr)
             sys.exit(1)
 
+    if ignore_env: return cfg
+    
     # read config from environnement file ?
     load_dotenv()
 

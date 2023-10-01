@@ -61,8 +61,8 @@ jobs:
         run: |
           sudo docker run -d --network="host" --name powerdns --volume=$PWD/tests/pdns.conf:/etc/powerdns/pdns.conf:ro --volume=$PWD/tests/db.example.com:/var/lib/powerdns/db.example.com:ro --volume=$PWD/tests/db.0.10.in-addr.arpa:/var/lib/powerdns/db.0.10.in-addr.arpa:ro powerdns/pdns-auth-${{ matrix.pdns-version }}:latest
           sudo docker logs powerdns
-          sudo chmod +x ./testdata/initzone.sh
-          sudo ./testdata/initzone.sh
+          sudo chmod +x ./tests/initzone.sh
+          sudo ./tests/initzone.sh
 
       - name: Run Python tests 
         run: |
