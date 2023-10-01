@@ -8,6 +8,18 @@
 
 Backup tool for PowerDNS database.
 
+## PyPI
+
+Deploy the `pdnsbackyp` tool in your server with the pip command.
+
+```python
+pip install pdnsbackup
+```
+
+After installation, you can execute the `pdnsbackup` to start-it.
+
+See [config file](/pdnsbackup/config.yml) for more options.
+
 ## Docker run
 
 ```bash
