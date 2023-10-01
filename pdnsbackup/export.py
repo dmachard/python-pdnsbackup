@@ -26,7 +26,7 @@ def backup(cfg: dict, zones: dict):
                 namedconf.append( default_named % (zname, cfg["file-path-bind"], zname) )
 
             with open(f"{cfg['file-path-output']}/named.conf", "w") as bind_file:
-                bind_file.write( "\n\n".join(namedconf) )
+                bind_file.write( "\n\n".join(namedconf) +"\n" )
             logger.info(f"export - bind configuration created")
 
     except Exception as e:

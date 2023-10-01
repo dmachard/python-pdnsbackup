@@ -73,6 +73,10 @@ jobs:
       - name: Check zone format
         run: |
           sudo apt-get update && sudo apt-get install -y bind9utils
-          sudo cat /tmp/named.conf
           sudo named-checkzone example.com /tmp/db.example.com
           sudo named-checkzone 0.10.in-addr.arpa /tmp/db.0.10.in-addr.arpa
+
+      - name: Check bind named config
+        run: |
+          sudo cat /tmp/named.conf
+          sudo named-checkconf /tmp/named.conf
