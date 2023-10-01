@@ -8,15 +8,15 @@ loop = asyncio.get_event_loop()
 async def fetch(cfg: dict):
     records = []
 
-    if cfg["gmysql_enable"]:
+    if cfg["gmysql-enabled"]:
         logger.info("gmysql - backend enabled...")
         conn = None
         try:
             logger.debug("gmysql - connect to database...")
             conn = await aiomysql.connect( 
-                        host=cfg['gmysql_host'], port=int(cfg['gmysql_port']),
-                        user=cfg['gmysql_user'], password=cfg['gmysql_password'],
-                        db=cfg['gmysql_dbname'], loop=loop
+                        host=cfg['gmysql-host'], port=int(cfg['gmysql-port']),
+                        user=cfg['gmysql-user'], password=cfg['gmysql-password'],
+                        db=cfg['gmysql-dbname'], loop=loop
                     )
             logger.debug("gmysql - succesfully connected")
 

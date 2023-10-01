@@ -1,8 +1,9 @@
 import unittest
+import os
 
 from pdnsbackup import export
 
-direct_zone = { 'example.com': {
+zone_direct = { 'example.com': {
                         'soa': 'example.com. 3600 IN SOA ns1.example.com. admin.example.com. 2023092901 3600 1800 604800 86400',
                         'ns': [ 'example.com. 3600 IN NS ns1.example.com.', 
                                 'example.com. 3600 IN NS ns2.example.com.' ],
@@ -24,9 +25,8 @@ direct_zone = { 'example.com': {
                                      '100.example.com. 3600 IN PTR www.example.com.',
                                      'example.com. 3600 IN SPF "v=spf1 mx -all"' ]
                         }
-                }
-
-reverse_zone = { '0.10.in-addr.arpa':  {
+        }
+zone_reverse = { '0.10.in-addr.arpa':  {
                     'soa': '0.10.in-addr.arpa. 3600 IN SOA ns1.pdnsbackup.com. dns.admin. 96053 1800 300 1209600 300',
                     'ns': [ '0.10.in-addr.arpa. 3600 IN NS ns1.pdnsbackup.com.', 
                             '0.10.in-addr.arpa. 3600 IN NS ns2.pdnsbackup.com.' ],
@@ -35,3 +35,45 @@ reverse_zone = { '0.10.in-addr.arpa':  {
                                  '2.0.0.10.in-addr.arpa. 300 IN PTR dc3.example.fr.']
                     }
                 }
+
+REF_ZONE_EXAMPLE = ""
+REF_ZONE_REVERSE = ""
+REF_NAMED = ""
+
+with open(os.path.join(os.path.dirname(__file__), 'db.example.com'), "r") as ref:
+    REF_ZONE_EXAMPLE = ref.read()
+
+with open(os.path.join(os.path.dirname(__file__), 'db.0.10.in-addr.arpa'), "r") as ref:
+    REF_ZONE_REVERSE = ref.read()
+
+with open(os.path.join(os.path.dirname(__file__), 'named.conf'), "r") as ref:
+    REF_NAMED = ref.read()
+
+class TestExportFile(unittest.TestCase):
+    def test_export_zone_direct(self):
+        self.maxDiff = None
+
+        cfg = {"file_enable": True, "file_path_output": "/tmp/", "file_path_bind": "/var/lib/powerdns/"}
+        export.backup(cfg, zone_direct)
+
+        for zone, data in zone_direct.items():
+            with open("/tmp/db.%s" % zone, "r") as f:
+                self.assertEqual( f.read(), REF_ZONE_EXAMPLE )
+                
+    def test_export_zone_reverse(self):
+        self.maxDiff = None
+        cfg = {"file_enable": True, "file_path_output": "/tmp/", "file_path_bind": "/var/lib/powerdns/"}
+        export.backup(cfg, zone_reverse)
+
+        for zone, data in zone_reverse.items():
+            with open("/tmp/db.%s" % zone, "r") as f:
+                self.assertEqual( f.read(), REF_ZONE_REVERSE )
+
+    def test_export_named(self):
+        
+        cfg = {"file_enable": True, "file_path_output": "/tmp/", "file_path_bind": "/var/lib/powerdns/"}
+        export.backup(cfg, zone_direct)
+
+        for zone, data in zone_direct.items():
+            with open("/tmp/named.conf", "r") as f:
+                self.assertEqual( f.read(), REF_NAMED )

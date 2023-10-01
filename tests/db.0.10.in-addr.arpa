@@ -1,0 +1,7 @@
+$ORIGIN .
+0.10.in-addr.arpa. 3600 IN SOA ns1.pdnsbackup.com. dns.admin. 96053 1800 300 1209600 300
+0.10.in-addr.arpa. 3600 IN NS ns1.pdnsbackup.com.
+0.10.in-addr.arpa. 3600 IN NS ns2.pdnsbackup.com.
+254.0.0.10.in-addr.arpa. 3600 IN PTR dc1.example.fr.
+1.0.0.10.in-addr.arpa. 3600 IN PTR dc2.example.fr.
+2.0.0.10.in-addr.arpa. 300 IN PTR dc3.example.fr.

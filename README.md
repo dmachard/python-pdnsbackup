@@ -45,7 +45,7 @@ Install requirements and run-it
 
 ```bash
 python3 -m pip install -r requirements.txt
-python3 -c "import pdnsbackup; pdnsbackup.backup();"
+python3 -c "import pdnsbackup; pdnsbackup.run();"
 ```
 
 ## Build and run from docker image
@@ -66,4 +66,5 @@ Run one by one
 
 ```bash
 python -m unittest -v tests.test_parser
+python -m unittest -v tests.test_export
 ```
