@@ -24,11 +24,11 @@ jobs:
 
     - name: Run Python tests
       run: |
-        python --version
-        python -m pip install -r requirements.txt
-        python -m unittest -v tests.test_config
-        python -m unittest -v tests.test_parser
-        python -m unittest -v tests.test_export
+        sudo python --version
+        sudo python -m pip install -r requirements.txt
+        sudo python -m unittest -v tests.test_config
+        sudo python -m unittest -v tests.test_parser
+        sudo python -m unittest -v tests.test_export
 
   integration:
     runs-on: ubuntu-22.04
@@ -67,8 +67,8 @@ jobs:
       - name: Run Python tests 
         run: |
           python --version
-          python -m pip install -r requirements.txt 
-          python -m unittest tests.test_import -v
+          sudo python -m pip install -r requirements.txt 
+          sudo python -m unittest tests.test_import -v
 
       - name: Check zone format
         run: |
