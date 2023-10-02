@@ -1,6 +1,7 @@
 import unittest
 import os
 
+import pdnsbackup
 from pdnsbackup import export
 
 zone_direct = { 'example.com': {
@@ -40,6 +41,10 @@ REF_ZONE_EXAMPLE = ""
 REF_ZONE_REVERSE = ""
 REF_NAMED = ""
 
+class args:
+    c = None
+    v = False
+
 with open(os.path.join(os.path.dirname(__file__), 'db.example.com'), "r") as ref:
     REF_ZONE_EXAMPLE = ref.read()
 
@@ -47,33 +52,38 @@ with open(os.path.join(os.path.dirname(__file__), 'db.0.10.in-addr.arpa'), "r") 
     REF_ZONE_REVERSE = ref.read()
 
 with open(os.path.join(os.path.dirname(__file__), 'named.conf'), "r") as ref:
-    REF_NAMED = ref.read()
+    REF_CONF_NAMED = ref.read()
 
 class TestExportFile(unittest.TestCase):
     def test_export_zone_direct(self):
         self.maxDiff = None
 
-        cfg = {"file-enabled": True, "file-path-output": "/tmp/", "file-path-bind": "/var/lib/powerdns/"}
-        export.backup(cfg, zone_direct)
+        cfg = pdnsbackup.setup_config(args, ignore_env=True)
+        success = export.backup(cfg, zone_direct)
+        self.assertTrue(success)
 
         for zone, data in zone_direct.items():
-            with open("/tmp/db.%s" % zone, "r") as f:
+            with open("%s/db.%s" % (cfg["file-path-output"],zone), "r") as f:
                 self.assertEqual( f.read(), REF_ZONE_EXAMPLE )
                 
     def test_export_zone_reverse(self):
         self.maxDiff = None
-        cfg = {"file-enabled": True, "file-path-output": "/tmp/", "file-path-bind": "/var/lib/powerdns/"}
-        export.backup(cfg, zone_reverse)
+
+        cfg = pdnsbackup.setup_config(args, ignore_env=True)
+        success = export.backup(cfg, zone_reverse)
+        self.assertTrue(success)
 
         for zone, data in zone_reverse.items():
-            with open("/tmp/db.%s" % zone, "r") as f:
+            with open("%s/db.%s" % (cfg["file-path-output"],zone), "r") as f:
                 self.assertEqual( f.read(), REF_ZONE_REVERSE )
 
     def test_export_named(self):
-        
-        cfg = {"file-enabled": True, "file-path-output": "/tmp/", "file-path-bind": "/var/lib/powerdns/"}
-        export.backup(cfg, zone_direct)
+        self.maxDiff = None
+
+        cfg = pdnsbackup.setup_config(args, ignore_env=True)
+        success = export.backup(cfg, zone_direct)
+        self.assertTrue(success)
 
         for zone, data in zone_direct.items():
-            with open("/tmp/named.conf", "r") as f:
-                self.assertEqual( f.read(), REF_NAMED )
+            with open("%s/named.conf" % cfg["file-path-output"], "r") as f:
+                self.assertEqual( f.read(), REF_CONF_NAMED )

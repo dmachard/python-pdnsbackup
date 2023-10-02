@@ -13,8 +13,10 @@ class TestConfig(unittest.TestCase):
         cfg = pdnsbackup.setup_config(args=args(), ignore_env=True)
 
         self.assertFalse(cfg["debug"])
+
         self.assertTrue(cfg["gmysql-enabled"])
         self.assertTrue(cfg["file-enabled"])
+        self.assertFalse(cfg["s3-enabled"])
 
     def test_overwrite_config_env(self):
         """overwrite config with env variables"""

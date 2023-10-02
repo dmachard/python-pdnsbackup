@@ -19,3 +19,4 @@ example.com. 3600 IN TXT "Ceci est un enregistrement TXT" "Retour à la ligne"
 _service._tcp.example.com. 3600 IN SRV 10 50 8080 server.example.com.
 100.example.com. 3600 IN PTR www.example.com.
 example.com. 3600 IN SPF "v=spf1 mx -all"
+

@@ -72,6 +72,7 @@ def setup_config(args, ignore_env=False):
     if debug_env is not None:
         cfg["debug"] = bool( int(debug_env) )
 
+    # gmysql backend env vars
     gmysql_enable_env = os.getenv('PDNSBACKUP_GMYSQL_ENABLED')
     if gmysql_enable_env is not None:
         cfg["gmysql-enabled"] = bool(int(gmysql_enable_env))
@@ -87,11 +88,25 @@ def setup_config(args, ignore_env=False):
     cfg["gmysql-user"] = os.getenv('PDNSBACKUP_GMYSQL_USER')
     cfg["gmysql-password"] = os.getenv('PDNSBACKUP_GMYSQL_PASSWORD')
 
+    # file output env vars
     file_enable_env = os.getenv('PDNSBACKUP_FILE_ENABLED')
     if file_enable_env is not None:
         cfg["file-enabled"] = bool(int(file_enable_env))
     cfg["file-path-bind"] = os.getenv('PDNSBACKUP_FILE_PATH_BIND')
     cfg["file-path-output"] = os.getenv('PDNSBACKUP_FILE_PATH_OUTPUT')
+
+    # S3 output env vars
+    s3_enable_env = os.getenv('PDNSBACKUP_S3_ENABLED')
+    if s3_enable_env is not None:
+        cfg["s3-enabled"] = bool(int(s3_enable_env))
+    cfg["s3-access-key-id"] = os.getenv('PDNSBACKUP_S3_ACCESS_KEY_ID')
+    cfg["s3-secret-access-key"] = os.getenv('PDNSBACKUP_S3_SECRET_ACCESS_KEY')
+    s3_sslverify_env = os.getenv('PDNSBACKUP_S3_SSL_VERIFY')
+    if  s3_sslverify_env is not None:
+        cfg["s3-ssl-verify"] = bool(int(s3_sslverify_env))
+    cfg["s3-endpoint-url"] = os.getenv('PDNSBACKUP_S3_ENDPOINT_URL')
+    cfg["s3-bucket-name"] = os.getenv('PDNSBACKUP_S3_BUCKET_NAME')
+    cfg["s3-region-name"] = os.getenv('PDNSBACKUP_S3_REGION_NAME')
 
     return cfg
 
@@ -99,7 +114,11 @@ async def main(cfg):
     """main backup processing"""
     records = await backend.fetch(cfg)
     zones = parser.read(records)
-    export.backup(cfg, zones)
+    success = export.backup(cfg, zones)
+    if not success:
+        logger.error("backup processing error")
+    else:
+        logger.info("backup processing terminated")
 
 def run(config=None):
     # setup command-line arguments.
