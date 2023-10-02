@@ -5,9 +5,10 @@ import tempfile
 import boto3
 import pathlib
 import os
+import prometheus_client
+import time
 
 logger = logging.getLogger("pdnsbackup")
-
 
 default_named = """zone "%s" {
    file "%sdb.%s";
@@ -58,6 +59,16 @@ def backup(cfg: dict, zones: dict):
         except Exception as e:
             logger.error("export file - %s" % e)
         logger.info(f"export file - success")
+
+    if cfg["metrics-enabled"]:
+        logger.debug("open metrics are enabled")
+
+        registry = prometheus_client.CollectorRegistry()
+
+        g = prometheus_client.Gauge('pdnsbackup_creation_timestamp', 'timestamp', registry=registry)
+        g.set(time.time())
+
+        prometheus_client.write_to_textfile(cfg["metrics-path"], registry)
 
     if cfg["s3-enabled"]:
         logger.debug("backup to s3 (%s) is enabled" % cfg["s3-endpoint-url"])

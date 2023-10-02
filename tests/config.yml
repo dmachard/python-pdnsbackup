@@ -1,12 +1,12 @@
-debug: false
+debug: true
 
 gmysql-enabled: true
 gmysql-host: 127.0.0.1
 gmysql-port: 3306
 gmysql-ssl: false
 gmysql-dbname: pdns
-gmysql-user: pdns
-gmysql-password: pdns
+gmysql-user: pdns_user
+gmysql-password: pdns_secret
 
 file-enabled: true
 file-path-bind: "/var/lib/powerdns/"
@@ -20,5 +20,5 @@ s3-bucket-name: "your_bucket"
 s3-access-key-id: 'your_access_key'
 s3-secret-access-key: 'your_secret_key'
 
-metrics-enabled: false
+metrics-enabled: true
 metrics-path: /tmp/pdnsbackup.prom
