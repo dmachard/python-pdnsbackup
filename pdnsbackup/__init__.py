@@ -69,44 +69,61 @@ def setup_config(args, ignore_env=False):
 
     # then finally config from environment variables
     debug_env = os.getenv('PDNSBACKUP_DEBUG')
-    if debug_env is not None:
-        cfg["debug"] = bool( int(debug_env) )
+    if debug_env is not None: cfg["debug"] = bool( int(debug_env) )
 
     # gmysql backend env vars
     gmysql_enable_env = os.getenv('PDNSBACKUP_GMYSQL_ENABLED')
-    if gmysql_enable_env is not None:
-        cfg["gmysql-enabled"] = bool(int(gmysql_enable_env))
+    if gmysql_enable_env is not None: cfg["gmysql-enabled"] = bool(int(gmysql_enable_env))
 
-    cfg["gmysql-host"] = os.getenv('PDNSBACKUP_GMYSQL_HOST')
-    cfg["gmysql-port"] = os.getenv('PDNSBACKUP_GMYSQL_PORT')
+    gmysql_host_env = os.getenv('PDNSBACKUP_GMYSQL_HOST')
+    if gmysql_host_env is not None: cfg["gmysql-host"] = gmysql_host_env
+
+    gmysql_port_env = os.getenv('PDNSBACKUP_GMYSQL_PORT')
+    if gmysql_port_env is not None: cfg["gmysql-port"] = gmysql_port_env
 
     gmysql_ssl_env = os.getenv('PDNSBACKUP_GMYSQL_SSL')
-    if gmysql_ssl_env is not None:
-        cfg["gmysql-ssl"] = bool(int(gmysql_ssl_env))
+    if gmysql_ssl_env is not None: cfg["gmysql-ssl"] = bool(int(gmysql_ssl_env))
 
-    cfg["gmysql-dbname"] = os.getenv('PDNSBACKUP_GMYSQL_DBNAME')
-    cfg["gmysql-user"] = os.getenv('PDNSBACKUP_GMYSQL_USER')
-    cfg["gmysql-password"] = os.getenv('PDNSBACKUP_GMYSQL_PASSWORD')
+    gmysql_dbname = os.getenv('PDNSBACKUP_GMYSQL_DBNAME')
+    if gmysql_dbname is not None: cfg["gmysql-dbname"] = gmysql_dbname
+
+    gmysql_user = os.getenv('PDNSBACKUP_GMYSQL_USER')
+    if gmysql_user is not None: cfg["gmysql-user"] = gmysql_user
+
+    gmysql_password = os.getenv('PDNSBACKUP_GMYSQL_PASSWORD')
+    if gmysql_password is not None: cfg["gmysql-password"] = gmysql_password
 
     # file output env vars
     file_enable_env = os.getenv('PDNSBACKUP_FILE_ENABLED')
-    if file_enable_env is not None:
-        cfg["file-enabled"] = bool(int(file_enable_env))
-    cfg["file-path-bind"] = os.getenv('PDNSBACKUP_FILE_PATH_BIND')
-    cfg["file-path-output"] = os.getenv('PDNSBACKUP_FILE_PATH_OUTPUT')
+    if file_enable_env is not None: cfg["file-enabled"] = bool(int(file_enable_env))
+
+    file_pathbind_env = os.getenv('PDNSBACKUP_FILE_PATH_BIND')
+    if file_pathbind_env is not None: cfg["file-path-bind"] = file_pathbind_env
+
+    file_pathoutput_env = os.getenv('PDNSBACKUP_FILE_PATH_OUTPUT')
+    if file_pathoutput_env is not None: cfg["file-path-output"] = file_pathoutput_env
 
     # S3 output env vars
     s3_enable_env = os.getenv('PDNSBACKUP_S3_ENABLED')
-    if s3_enable_env is not None:
-        cfg["s3-enabled"] = bool(int(s3_enable_env))
-    cfg["s3-access-key-id"] = os.getenv('PDNSBACKUP_S3_ACCESS_KEY_ID')
-    cfg["s3-secret-access-key"] = os.getenv('PDNSBACKUP_S3_SECRET_ACCESS_KEY')
+    if s3_enable_env is not None: cfg["s3-enabled"] = bool(int(s3_enable_env))
+
+    s3_accesskey_env = os.getenv('PDNSBACKUP_S3_ACCESS_KEY_ID')
+    if s3_accesskey_env is not None: cfg["s3-access-key-id"] = s3_accesskey_env
+
+    s3_secretaccess_env = os.getenv('PDNSBACKUP_S3_SECRET_ACCESS_KEY')
+    if s3_secretaccess_env is not None: cfg["s3-secret-access-key"] = s3_secretaccess_env
+
     s3_sslverify_env = os.getenv('PDNSBACKUP_S3_SSL_VERIFY')
-    if  s3_sslverify_env is not None:
-        cfg["s3-ssl-verify"] = bool(int(s3_sslverify_env))
-    cfg["s3-endpoint-url"] = os.getenv('PDNSBACKUP_S3_ENDPOINT_URL')
-    cfg["s3-bucket-name"] = os.getenv('PDNSBACKUP_S3_BUCKET_NAME')
-    cfg["s3-region-name"] = os.getenv('PDNSBACKUP_S3_REGION_NAME')
+    if s3_sslverify_env is not None: cfg["s3-ssl-verify"] = bool(int(s3_sslverify_env))
+
+    s3_endpoint_env = os.getenv('PDNSBACKUP_S3_ENDPOINT_URL')
+    if s3_endpoint_env is not None: cfg["s3-endpoint-url"] = s3_endpoint_env
+
+    s3_bucket_env = os.getenv('PDNSBACKUP_S3_BUCKET_NAME')
+    if s3_bucket_env is not None: cfg["s3-bucket-name"] = s3_bucket_env
+
+    s3_region_env = os.getenv('PDNSBACKUP_S3_REGION_NAME')
+    if s3_region_env is not None: cfg["s3-region-name"] = s3_region_env
 
     return cfg
 

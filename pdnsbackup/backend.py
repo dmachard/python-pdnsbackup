@@ -12,6 +12,7 @@ async def fetch(cfg: dict):
         logger.info("gmysql - backend enabled...")
         conn = None
         try:
+            print(cfg)
             logger.debug("gmysql - connect to database...")
             conn = await aiomysql.connect( 
                         host=cfg['gmysql-host'], port=int(cfg['gmysql-port']),
