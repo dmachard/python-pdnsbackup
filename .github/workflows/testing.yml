@@ -49,7 +49,7 @@ jobs:
 
       - name: Setup MariaDB
         run: |
-          sudo docker run -d --network="host" --name mariadb -e MARIADB_ROOT_PASSWORD=pdns -e MARIADB_DATABASE=pdns -e MARIADB_USER=pdns_user -e MARIADB_PASSWORD=pdns_secret mariadb:latest
+          sudo docker run -d --network="host" --name mariadb -e MARIADB_ROOT_PASSWORD=pdns -e MARIADB_DATABASE=pdns -e MARIADB_USER=pdns -e MARIADB_PASSWORD=pdns mariadb:latest
           sudo docker exec -i mariadb sh -c 'exec mariadb-admin ping -h 127.0.0.1 -u root --password=pdns --wait=30'
     
       - name: Import sql schema
