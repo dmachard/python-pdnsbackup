@@ -38,7 +38,6 @@ def backup(cfg: dict, zones: dict):
         if not os.path.exists(f"{cfg['file-path-output']}"):
             os.makedirs(f"{cfg['file-path-output']}")
             logger.debug(f"export file - directory %s created!" % cfg['file-path-output'])
-            return False
 
         try:
             # cleanup the folder 
