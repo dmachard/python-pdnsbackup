@@ -24,11 +24,11 @@ jobs:
 
     - name: Run Python tests
       run: |
-        python --version
-        python -m pip install -r requirements.txt
-        python -m unittest -v tests.test_config
-        python -m unittest -v tests.test_parser
-        python -m unittest -v tests.test_export
+        sudo python --version
+        sudo python -m pip install -r requirements.txt
+        sudo python -m unittest -v tests.test_config
+        sudo python -m unittest -v tests.test_parser
+        sudo python -m unittest -v tests.test_export
 
   integration:
     runs-on: ubuntu-22.04
@@ -49,13 +49,13 @@ jobs:
 
       - name: Setup MariaDB
         run: |
-          sudo docker run -d --network="host" --name mariadb -e MARIADB_ROOT_PASSWORD=secret -e MARIADB_DATABASE=pdns -e MARIADB_USER=pdns_user -e MARIADB_PASSWORD=pdns_secret mariadb:latest
-          sudo docker exec -i mariadb sh -c 'exec mariadb-admin ping -h 127.0.0.1 -u root --password=secret --wait=30'
+          sudo docker run -d --network="host" --name mariadb -e MARIADB_ROOT_PASSWORD=pdns -e MARIADB_DATABASE=pdns -e MARIADB_USER=pdns -e MARIADB_PASSWORD=pdns mariadb:latest
+          sudo docker exec -i mariadb sh -c 'exec mariadb-admin ping -h 127.0.0.1 -u root --password=pdns --wait=30'
     
       - name: Import sql schema
         run: |
           sudo wget https://raw.githubusercontent.com/PowerDNS/pdns/rel/${{ matrix.branch }}/modules/gmysqlbackend/schema.mysql.sql
-          sudo docker exec -i mariadb sh -c 'exec mariadb -u root -p"secret" pdns' < schema.mysql.sql
+          sudo docker exec -i mariadb sh -c 'exec mariadb -u root -p"pdns" pdns' < schema.mysql.sql
 
       - name: Setup PowerDNS
         run: |
@@ -67,16 +67,16 @@ jobs:
       - name: Run Python tests 
         run: |
           python --version
-          python -m pip install -r requirements.txt 
-          python -m unittest tests.test_import -v
+          sudo python -m pip install -r requirements.txt 
+          sudo python -m unittest tests.test_import -v
 
       - name: Check zone format
         run: |
           sudo apt-get update && sudo apt-get install -y bind9utils
-          sudo named-checkzone example.com /tmp/db.example.com
-          sudo named-checkzone 0.10.in-addr.arpa /tmp/db.0.10.in-addr.arpa
+          sudo named-checkzone example.com /tmp/pdnsbackup/db.example.com
+          sudo named-checkzone 0.10.in-addr.arpa /tmp/pdnsbackup/db.0.10.in-addr.arpa
 
       - name: Check bind named config
         run: |
-          sudo cat /tmp/named.conf
-          sudo named-checkconf /tmp/named.conf
+          sudo cat /tmp/pdnsbackup/named.conf
+          sudo named-checkconf /tmp/pdnsbackup/named.conf

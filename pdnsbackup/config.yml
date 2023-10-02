@@ -10,4 +10,12 @@ gmysql-password: pdns
 
 file-enabled: true
 file-path-bind: "/var/lib/powerdns/"
-file-path-output: "/tmp/"
+file-path-output: "/tmp/pdnsbackup"
+
+s3-enabled: false
+s3-endpoint-url: 'https://s3.cloud'
+s3-ssl-verify: true
+s3-region-name: "east-1"
+s3-bucket-name: "your_bucket"
+s3-access-key-id: 'your_access_key'
+s3-secret-access-key: 'your_secret_key'
