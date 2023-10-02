@@ -18,7 +18,6 @@ pip install pdnsbackup
 
 After installation, you can execute the `pdnsbackup` to start-it.
 
-See [config file](/pdnsbackup/config.yml) for more options.
 
 ## Docker run
 
@@ -26,7 +25,13 @@ See [config file](/pdnsbackup/config.yml) for more options.
 sudo docker run --rm --env-file ./.env --name=pdnsbackup dmachard/pdnsbackup:latest
 ```
 
-## Environment variables
+## Configuration
+
+This tool can be configurated with severals ways. See the default [config file](/pdnsbackup/config.yml):
+
+- from external configuration file (`-c config` argument)
+
+- from environment variables
 
 | Variables | Description |
 | ------------- | ------------- |
@@ -34,7 +39,7 @@ sudo docker run --rm --env-file ./.env --name=pdnsbackup dmachard/pdnsbackup:lat
 
 | Variables | Description |
 | ------------- | ------------- |
-| PDNSBACKUP_GMYSQL_ENABLED | enable gmysql backend, default is 1 |
+| PDNSBACKUP_GMYSQL_ENABLED | (1|0) enable gmysql backend, enabled by default |
 | PDNSBACKUP_GMYSQL_HOST | mysql port, default is 127.0.0.1 |
 | PDNSBACKUP_GMYSQL_PORT | mysql port, default is 3306 |
 | PDNSBACKUP_GMYSQL_SSL | enable ssl, default is 0 |
@@ -44,9 +49,18 @@ sudo docker run --rm --env-file ./.env --name=pdnsbackup dmachard/pdnsbackup:lat
 
 | Variables | Description |
 | ------------- | ------------- |
-| PDNSBACKUP_FILE_ENABLED | enable backup to file, defaut is 1 |
+| PDNSBACKUP_FILE_ENABLED | (1|0) enable backup to file, enabled by default |
 | PDNSBACKUP_FILE_PATH_BIND | zone bind path  |
 | PDNSBACKUP_FILE_PATH_OUTPUT | output folder |
+
+| Variables | Description |
+| ------------- | ------------- |
+| PDNSBACKUP_S3_ENABLED | (1|0) enable backup to S3 storage, disabled by default |
+| PDNSBACKUP_S3_ENDPOINT_URL | your s3 url |
+| PDNSBACKUP_S3_SSL_VERIFY | disable ssl verify |
+| PDNSBACKUP_S3_ACCESS_KEY_ID | your access key |
+| PDNSBACKUP_S3_SECRET_ACCESS_KEY | your secret access key |
+| PDNSBACKUP_S3_BUCKET_NAME | bucket name |
 
 ## Run from source
 
