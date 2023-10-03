@@ -1,16 +1,14 @@
-# What is this?
-
 ![Build](https://github.com/dmachard/python-pdnsbackup/workflows/Build/badge.svg) ![Testing](https://github.com/dmachard/python-pdnsbackup/workflows/Testing/badge.svg) ![Pypi](https://github.com/dmachard/python-pdnsbackup/workflows/Publish/badge.svg)
 
-![powerdns auth 4.8.x](https://img.shields.io/badge/pdns%204.8.x-tested-green)
-
-![python 3.11.x](https://img.shields.io/badge/python%203.11.x-tested-blue)
+# What is this?
 
 Backup tool for PowerDNS database (MySQL) to local or S3 storage in bind format. Open metrics  are also computed on your feched zones.
 
 ## PyPI
 
-Deploy the `pdnsbackyp` tool in your server with the pip command.
+![python 3.11.x](https://img.shields.io/badge/python%203.11.x-tested-blue)
+
+Deploy the `pdnsbackup` tool in your server with the pip command.
 
 ```python
 pip install pdnsbackup
@@ -53,6 +51,7 @@ This tool can be configurated with severals ways. See the default [config file](
 | PDNSBACKUP_S3_BUCKET_NAME | bucket name |
 | PDNSBACKUP_METRICS_ENABLED | export open metrics |
 | PDNSBACKUP_METRICS_PATH | write metrics to file path |
+
 ## Run from source
 
 Create a `.env` file to populate your variable
@@ -78,6 +77,8 @@ sudo docker build . --file Dockerfile -t pdnsbackup
 ```
 
 ## Run tests
+
+![powerdns auth 4.8.x](https://img.shields.io/badge/pdns%204.8.x-tested-green)
 
 Run all tests
 
