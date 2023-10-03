@@ -76,7 +76,7 @@ class TestParserRecords(unittest.TestCase):
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["srv"], 1)
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["others"], 4)
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["mx"], 1)
-        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["wilcards"], 2)
+        self.assertEqual(zones["example.com"]["stats"]["wilcards"], 2)
 
 class TestParserReverse(unittest.TestCase):
     def test_records_ptr_total(self):
