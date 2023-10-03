@@ -67,7 +67,7 @@ class TestParserRecords(unittest.TestCase):
     def test_stats(self):
         zones = parser.read(records)
 
-        self.assertEqual(zones["example.com"]["stats"]["records"], 19)
+        self.assertEqual(zones["example.com"]["stats"]["records"], 16)
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["a"], 8)
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["aaaa"], 2)
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["txt"], 2)
@@ -92,6 +92,6 @@ class TestParserReverse(unittest.TestCase):
     def test_stats(self):
         zones = parser.read(records_reverse)
 
-        self.assertEqual(zones["0.10.in-addr.arpa"]["stats"]["records"], 6)
+        self.assertEqual(zones["0.10.in-addr.arpa"]["stats"]["records"], 3)
         self.assertEqual(zones["0.10.in-addr.arpa"]["stats"]["rrtypes"]["a"], 0)
         self.assertEqual(zones["0.10.in-addr.arpa"]["stats"]["rrtypes"]["ptr"], 3)

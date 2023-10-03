@@ -19,10 +19,11 @@ def read(records: list):
             zones[zone_name] = {"soa": "",  "ns": [], "records": [], "stats": stats_per_zone }
             logger.debug("parser - add zone (%s) %s" % (z,zone_name))
 
-        # count record
-        zones[zone_name]["stats"]["records"] +=1
-
         try:
+            # count record except SOA and NS of the zone
+            if rtype not in [ "SOA", "NS"]: 
+                zones[zone_name]["stats"]["records"] +=1
+
             if rtype == "SOA":
                 soa = rdata.split(" ")
                 soa[0] = "%s." % soa[0]
