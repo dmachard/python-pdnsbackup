@@ -125,6 +125,13 @@ def setup_config(args, ignore_env=False):
     s3_region_env = os.getenv('PDNSBACKUP_S3_REGION_NAME')
     if s3_region_env is not None: cfg["s3-region-name"] = s3_region_env
 
+    # metrics output env vars
+    prom_enable_env = os.getenv('PDNSBACKUP_METRICS_ENABLED')
+    if prom_enable_env is not None: cfg["metrics-enabled"] = bool(int(prom_enable_env))
+    
+    prom_path_env = os.getenv('PDNSBACKUP_METRICS_PATH')
+    if prom_path_env is not None: cfg["metrics-path"] = prom_path_env
+
     return cfg
 
 async def main(cfg):

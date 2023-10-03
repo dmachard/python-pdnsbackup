@@ -64,6 +64,20 @@ class TestParserRecords(unittest.TestCase):
         self.assertEqual( zones["example.com"]["records"][3], "example.com. 14400 IN MX 10 mail.example.com." )
         self.assertEqual( zones["example.com"]["records"][14], "_service._tcp.example.com. 3600 IN SRV 10 50 8080 server.example.com." )
 
+    def test_stats(self):
+        zones = parser.read(records)
+
+        self.assertEqual(zones["example.com"]["stats"]["records"], 19)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["a"], 8)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["aaaa"], 2)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["txt"], 2)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["ptr"], 0)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["cname"], 1)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["srv"], 1)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["others"], 4)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["mx"], 1)
+        self.assertEqual(zones["example.com"]["stats"]["wilcards"], 2)
+
 class TestParserReverse(unittest.TestCase):
     def test_records_ptr_total(self):
         zones = parser.read(records_reverse)
@@ -74,3 +88,10 @@ class TestParserReverse(unittest.TestCase):
         zones = parser.read(records_reverse)
 
         self.assertEqual( zones["0.10.in-addr.arpa"]["records"][0], "254.0.0.10.in-addr.arpa. 3600 IN PTR dc1.example.fr." )
+
+    def test_stats(self):
+        zones = parser.read(records_reverse)
+
+        self.assertEqual(zones["0.10.in-addr.arpa"]["stats"]["records"], 6)
+        self.assertEqual(zones["0.10.in-addr.arpa"]["stats"]["rrtypes"]["a"], 0)
+        self.assertEqual(zones["0.10.in-addr.arpa"]["stats"]["rrtypes"]["ptr"], 3)

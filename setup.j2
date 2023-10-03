@@ -28,8 +28,10 @@ setuptools.setup(
     ],
     entry_points={'console_scripts': ['pdnsbackup = pdnsbackup.backup:start_backup']},
     install_requires=[
+        "pyyaml",
         "aiomysql",
         "python-dotenv",
         "boto3",
+        "prometheus-client",
     ]
 )

@@ -17,6 +17,7 @@ class TestConfig(unittest.TestCase):
         self.assertTrue(cfg["gmysql-enabled"])
         self.assertTrue(cfg["file-enabled"])
         self.assertFalse(cfg["s3-enabled"])
+        self.assertFalse(cfg["metrics-enabled"])
 
     def test_overwrite_config_env(self):
         """overwrite config with env variables"""
