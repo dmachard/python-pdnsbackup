@@ -12,10 +12,10 @@ def read(records: list):
         
         if zone_name not in zones:
             z+=1
-            stats_per_zone = { "records": 0, "a": 0, "aaaa": 0, 
-                                "txt": 0, "ptr": 0, "cname": 0, 
-                                "srv": 0, "others": 0, "mx": 0,
-                                "wilcards": 0 } 
+            stats_per_zone = { 
+                               "records": 0, "wilcards": 0,
+                               "rrtypes": { "a": 0, "aaaa": 0, "txt": 0, "ptr": 0, "cname": 0,  "srv": 0, "mx": 0, "others": 0},
+                             } 
             zones[zone_name] = {"soa": "",  "ns": [], "records": [], "stats": stats_per_zone }
             logger.debug("parser - add zone (%s) %s" % (z,zone_name))
 
@@ -38,14 +38,14 @@ def read(records: list):
                 zones[zone_name]["records"].append("%s. %s IN %s %s" % (rname, ttl, rtype, rdata))
 
             if rname.startswith("*."): zones[zone_name]["stats"]["wilcards"] +=1
-            if rtype == "A": zones[zone_name]["stats"]["a"] +=1
-            elif rtype == "AAAA": zones[zone_name]["stats"]["aaaa"] +=1
-            elif rtype == "CNAME": zones[zone_name]["stats"]["cname"] +=1
-            elif rtype == "PTR": zones[zone_name]["stats"]["ptr"] +=1
-            elif rtype == "TXT": zones[zone_name]["stats"]["txt"] +=1
-            elif rtype == "SRV": zones[zone_name]["stats"]["srv"] +=1
-            elif rtype == "MX": zones[zone_name]["stats"]["mx"] +=1
-            else: zones[zone_name]["stats"]["others"] +=1
+            if rtype == "A": zones[zone_name]["stats"]["rrtypes"]["a"] +=1
+            elif rtype == "AAAA": zones[zone_name]["stats"]["rrtypes"]["aaaa"] +=1
+            elif rtype == "CNAME": zones[zone_name]["stats"]["rrtypes"]["cname"] +=1
+            elif rtype == "PTR": zones[zone_name]["stats"]["rrtypes"]["ptr"] +=1
+            elif rtype == "TXT": zones[zone_name]["stats"]["rrtypes"]["txt"] +=1
+            elif rtype == "SRV": zones[zone_name]["stats"]["rrtypes"]["srv"] +=1
+            elif rtype == "MX": zones[zone_name]["stats"]["rrtypes"]["mx"] +=1
+            else: zones[zone_name]["stats"]["rrtypes"]["others"] +=1
 
         except Exception as e:
             logger.error("parser - add record %s %s in %s: %s" % (rname, rtype, zone_name, e))

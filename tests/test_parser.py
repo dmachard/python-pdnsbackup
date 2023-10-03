@@ -68,15 +68,15 @@ class TestParserRecords(unittest.TestCase):
         zones = parser.read(records)
 
         self.assertEqual(zones["example.com"]["stats"]["records"], 19)
-        self.assertEqual(zones["example.com"]["stats"]["a"], 8)
-        self.assertEqual(zones["example.com"]["stats"]["aaaa"], 2)
-        self.assertEqual(zones["example.com"]["stats"]["txt"], 2)
-        self.assertEqual(zones["example.com"]["stats"]["ptr"], 0)
-        self.assertEqual(zones["example.com"]["stats"]["cname"], 1)
-        self.assertEqual(zones["example.com"]["stats"]["srv"], 1)
-        self.assertEqual(zones["example.com"]["stats"]["others"], 4)
-        self.assertEqual(zones["example.com"]["stats"]["mx"], 1)
-        self.assertEqual(zones["example.com"]["stats"]["wilcards"], 2)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["a"], 8)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["aaaa"], 2)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["txt"], 2)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["ptr"], 0)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["cname"], 1)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["srv"], 1)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["others"], 4)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["mx"], 1)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["wilcards"], 2)
 
 class TestParserReverse(unittest.TestCase):
     def test_records_ptr_total(self):
@@ -93,5 +93,5 @@ class TestParserReverse(unittest.TestCase):
         zones = parser.read(records_reverse)
 
         self.assertEqual(zones["0.10.in-addr.arpa"]["stats"]["records"], 6)
-        self.assertEqual(zones["0.10.in-addr.arpa"]["stats"]["a"], 0)
-        self.assertEqual(zones["0.10.in-addr.arpa"]["stats"]["ptr"], 3)
+        self.assertEqual(zones["0.10.in-addr.arpa"]["stats"]["rrtypes"]["a"], 0)
+        self.assertEqual(zones["0.10.in-addr.arpa"]["stats"]["rrtypes"]["ptr"], 3)
