@@ -6,10 +6,7 @@
 
 ![python 3.11.x](https://img.shields.io/badge/python%203.11.x-tested-blue)
 
-Backup tool for PowerDNS database (MySQL) to bind style zones with severals outputs:
-
-- local file storage
-- s3 storage
+Backup tool for PowerDNS database (MySQL) to local or S3 storage in bind format. Open metrics  are also computed on your feched zones.
 
 ## PyPI
 
