@@ -49,8 +49,9 @@ This tool can be configurated with severals ways. See the default [config file](
 | PDNSBACKUP_S3_ACCESS_KEY_ID | your access key |
 | PDNSBACKUP_S3_SECRET_ACCESS_KEY | your secret access key |
 | PDNSBACKUP_S3_BUCKET_NAME | bucket name |
+| PDNSBACKUP_S3_BACKUP_FILE | backup file name |
 | PDNSBACKUP_METRICS_ENABLED | export open metrics |
-| PDNSBACKUP_METRICS_PATH | write metrics to file path |
+| PDNSBACKUP_METRICS_PROM_FILE | write metrics to file path |
 
 ## Run from source
 

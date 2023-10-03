@@ -65,7 +65,7 @@ def export_s3(cfg: dict, zones: dict):
 
     # create temp tar.gz file of all zones
     with tempfile.TemporaryDirectory() as dir:
-        filetar = "pdnsbackup-zones.tar.gz"
+        filetar = "%s.tar.gz" % cfg["s3-backup-file"]
         temptar = f"{dir}/{filetar}"
         logger.debug("export s3 - create temp tar gz %s" % temptar)
         try:
@@ -124,7 +124,7 @@ def export_metrics(cfg: dict, zones: dict, status: bool):
                             'total number of zones', 
                             registry=registry)
     metric_zones_empty = prometheus_client.Gauge(
-                            'pdnsbackup_zones_emty_total', 
+                            'pdnsbackup_zones_empty_total', 
                             'total number of empty zones', 
                             registry=registry)
     metrics_records = prometheus_client.Gauge(
@@ -157,7 +157,7 @@ def export_metrics(cfg: dict, zones: dict, status: bool):
 
         metric_status.labels(date=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), error= int(not status)).set(1.0)
 
-        prometheus_client.write_to_textfile(cfg["metrics-path"], registry)
+        prometheus_client.write_to_textfile(cfg["metrics-prom-file"], registry)
         logger.info("export metrics - success")
     except Exception as e:
         logger.error("export metrics - %s" % e)
