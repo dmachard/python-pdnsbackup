@@ -36,7 +36,7 @@ jobs:
     strategy:
       matrix:
         pdns-version: [ "48" ]
-        python: [ '3.11' ]
+        python: [ '3.11', '3.12' ]
         include:
         - pdns-version: "48"
           branch: "auth-4.8.x"
