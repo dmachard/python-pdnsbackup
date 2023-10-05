@@ -136,6 +136,10 @@ def export_metrics(cfg: dict, zones: dict, status: bool):
                             'pdnsbackup_wildcards_total', 
                             'total number of wildcards',
                             registry=registry)
+    metrics_delegations = prometheus_client.Gauge(
+                            'pdnsbackup_delegations_total', 
+                            'total number of delegations',
+                            registry=registry)
     metrics_rrtypes = prometheus_client.Gauge(
                             'pdnsbackup_rrtypes_total', 
                             'total number of records per rrtypes', 
@@ -149,8 +153,9 @@ def export_metrics(cfg: dict, zones: dict, status: bool):
             # number of empty zones
             if zone["stats"]["records"] == 0: metric_zones_empty.inc(1)
             metrics_wildcards.inc(zone["stats"]["wilcards"])
+            metrics_delegations.inc(zone["stats"]["delegations"])
             metric_zones.inc(1)
-            metrics_records.labels("").inc(zone["stats"]["records"])
+            metrics_records.labels(zone="").inc(zone["stats"]["records"])
             metrics_records.labels(zone=name).set(zone["stats"]["records"])
             for k,v in zone["stats"]["rrtypes"].items():
                 metrics_rrtypes.labels(rrtype=k.upper()).inc(v)
