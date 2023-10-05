@@ -6,6 +6,8 @@ records  =  [
                 ('example.com', 'example.com', 'SOA', 3600, 'ns1.example.com admin.example.com 2023092901 3600 1800 604800 86400', 0), 
                 ('example.com', 'example.com', 'NS', 3600, 'ns1.example.com', 0), 
                 ('example.com', 'example.com', 'NS', 3600, 'ns2.example.com', 0), 
+                ('example.com', 'zone.example.com', 'NS', 3600, 'ns3.example.com', 0), 
+                ('example.com', 'zone.example.com', 'NS', 3600, 'ns4.example.com', 0), 
                 ('example.com', 'ns1.example.com', 'A', 3600, '172.16.1.1', 0), 
                 ('example.com', 'ns2.example.com', 'A', 3600, '172.16.1.2', 0), 
                 ('example.com', '*.example.com', 'A', 14400, '0.0.0.0', 0), 
@@ -45,7 +47,7 @@ class TestParserRecords(unittest.TestCase):
     def test_ns(self):
         zones = parser.read(records)
 
-        self.assertEqual( len(zones["example.com"]["ns"]), 2 )
+        self.assertEqual( len(zones["example.com"]["ns"]), 4 )
         self.assertEqual( zones["example.com"]["ns"][0], "example.com. 3600 IN NS ns1.example.com." )
 
     def test_records_total(self):
@@ -67,16 +69,18 @@ class TestParserRecords(unittest.TestCase):
     def test_stats(self):
         zones = parser.read(records)
 
-        self.assertEqual(zones["example.com"]["stats"]["records"], 16)
+        self.assertEqual(zones["example.com"]["stats"]["records"], 18)
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["a"], 8)
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["aaaa"], 2)
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["txt"], 2)
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["ptr"], 0)
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["cname"], 1)
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["srv"], 1)
-        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["others"], 4)
         self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["mx"], 1)
+        self.assertEqual(zones["example.com"]["stats"]["rrtypes"]["others"], 2)
+
         self.assertEqual(zones["example.com"]["stats"]["wilcards"], 2)
+        self.assertEqual(zones["example.com"]["stats"]["delegations"], 2)
 
 class TestParserReverse(unittest.TestCase):
     def test_records_ptr_total(self):

@@ -2,6 +2,8 @@ $ORIGIN .
 example.com. 3600 IN SOA ns1.example.com. admin.example.com. 2023092901 3600 1800 604800 86400
 example.com. 3600 IN NS ns1.example.com.
 example.com. 3600 IN NS ns2.example.com.
+zone.example.com. 3600 IN NS ns3.example.com.
+zone.example.com. 3600 IN NS ns4.example.com.
 ns1.example.com. 3600 IN A 172.16.1.1
 ns2.example.com. 3600 IN A 172.16.1.2
 *.example.com. 14400 IN A 0.0.0.0

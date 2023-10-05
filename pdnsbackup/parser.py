@@ -13,9 +13,9 @@ def read(records: list):
         if zone_name not in zones:
             z+=1
             stats_per_zone = { 
-                               "records": 0, "wilcards": 0,
+                               "records": 0, "wilcards": 0, "delegations": 0,
                                "rrtypes": { "a": 0, "aaaa": 0, "txt": 0, "ptr": 0, "cname": 0,  
-                                            "srv": 0, "mx": 0, "others": 0},
+                                            "srv": 0, "mx": 0, "ns": 0, "others": 0},
                              } 
             zones[zone_name] = {"soa": "",  "ns": [], "records": [], "stats": stats_per_zone }
             logger.debug("parser - add zone (%s) %s" % (z,zone_name))
@@ -41,6 +41,10 @@ def read(records: list):
             if rtype not in [ "SOA", "NS"]: 
                 zones[zone_name]["stats"]["records"] +=1
 
+            if rtype == "NS" and rname != zone_name:
+                zones[zone_name]["stats"]["records"] +=1
+                zones[zone_name]["stats"]["delegations"] +=1
+
             if rname.startswith("*."): zones[zone_name]["stats"]["wilcards"] +=1
 
             match rtype:
@@ -51,6 +55,7 @@ def read(records: list):
                 case "TXT": zones[zone_name]["stats"]["rrtypes"]["txt"] +=1
                 case "SRV": zones[zone_name]["stats"]["rrtypes"]["srv"] +=1
                 case "MX": zones[zone_name]["stats"]["rrtypes"]["mx"] +=1
+                case "NS": zones[zone_name]["stats"]["rrtypes"]["ns"] +=1
                 case _: zones[zone_name]["stats"]["rrtypes"]["others"] +=1
 
         except Exception as e:
