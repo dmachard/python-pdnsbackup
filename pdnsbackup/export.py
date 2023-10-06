@@ -146,7 +146,7 @@ def export_metrics(cfg: dict, zones: dict, status: bool):
                             ['rrtype'],
                             registry=registry)
     try:
-        logger.debug("write metrics to file (%s)" % cfg["metrics-path"])
+        logger.debug("write metrics to file (%s)" % cfg["metrics-prom-file"])
 
         # update metrics
         for name, zone in zones.items():

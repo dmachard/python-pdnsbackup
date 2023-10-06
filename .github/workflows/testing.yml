@@ -28,7 +28,8 @@ jobs:
         sudo python -m pip install -r requirements.txt
         sudo python -m unittest -v tests.test_config
         sudo python -m unittest -v tests.test_parser
-        sudo python -m unittest -v tests.test_export
+        sudo python -m unittest -v tests.test_export_file
+        sudo python -m unittest -v tests.test_export_metrics
 
   integration:
     runs-on: ubuntu-22.04
