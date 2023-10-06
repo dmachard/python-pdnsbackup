@@ -92,5 +92,7 @@ Run one by one
 ```bash
 python -m unittest -v tests.test_config
 python -m unittest -v tests.test_parser
-python -m unittest -v tests.test_export
+python -m unittest -v tests.test_import
+python -m unittest -v tests.test_export_file
+python -m unittest -v tests.test_export_metrics
 ```
