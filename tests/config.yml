@@ -19,6 +19,7 @@ s3-region-name: "east-1"
 s3-bucket-name: "your_bucket"
 s3-access-key-id: 'your_access_key'
 s3-secret-access-key: 'your_secret_key'
+s3-backup-delete-older: 0
 
 metrics-enabled: true
 metrics-path: /tmp/pdnsbackup.prom
