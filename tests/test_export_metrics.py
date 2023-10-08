@@ -5,6 +5,7 @@ import pdnsbackup
 from pdnsbackup import export
 
 class args:
+    e = None
     c = None
     v = False
 

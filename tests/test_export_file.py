@@ -44,6 +44,7 @@ REF_ZONE_REVERSE = ""
 REF_NAMED = ""
 
 class args:
+    e = None
     c = None
     v = False
 

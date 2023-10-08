@@ -4,6 +4,7 @@ import os
 import pdnsbackup
 
 class args:
+    e = None
     c = None
     v = False
 
