@@ -14,7 +14,20 @@ Deploy the `pdnsbackup` tool in your server with the pip command.
 pip install pdnsbackup
 ```
 
+## Usage
+
 After installation, you can execute the `pdnsbackup` to start-it.
+
+```bash
+$ pdnsbackup -h
+usage: -c [-h] [-c C] [-e E] [-v]
+
+options:
+  -h, --help  show this help message and exit
+  -c C        external config file
+  -e E        env config file
+  -v          debug mode
+```
 
 ## Configuration
 
