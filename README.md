@@ -61,6 +61,20 @@ This tool can be configurated with severals ways. See the default [config file](
 | PDNSBACKUP_METRICS_ENABLED | export open metrics |
 | PDNSBACKUP_METRICS_PROM_FILE | write metrics to file path |
 
+# Metrics
+
+This tool can be used to compute [statistics](./metrics.txt) on your DNS records.
+
+| Variables | Description |
+| ------------- | ------------- |
+| pdnsbackup_status | Status of the backup process |
+| pdnsbackup_zones_total | Total number of zones |
+| pdnsbackup_zones_empty_total | Total number of empty zones |
+| pdnsbackup_records_total | Total number of records per DNS zones |
+| pdnsbackup_wildcards_total | Total number of DNS wilcards |
+| pdnsbackup_delegations_total | Total number of DNS delegations |
+| pdnsbackup_rrtypes_total | Total number of records per type (A, AAAA, CNAME, ...) |
+
 ## Docker run
 
 ```bash
