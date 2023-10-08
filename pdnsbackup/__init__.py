@@ -128,6 +128,9 @@ def setup_config(args, ignore_env=False):
     s3_backupfile_env = os.getenv('PDNSBACKUP_S3_BACKUP_FILE')
     if s3_backupfile_env is not None: cfg["s3-backup-file"] = s3_backupfile_env
 
+    s3_backupfile_delete_env = os.getenv('PDNSBACKUP_S3_BACKUP_DELETE_OLDER')
+    if s3_backupfile_delete_env is not None: cfg["s3-backup-delete-older"] = int(s3_backupfile_delete_env)
+
     # metrics output env vars
     prom_enable_env = os.getenv('PDNSBACKUP_METRICS_ENABLED')
     if prom_enable_env is not None: cfg["metrics-enabled"] = bool(int(prom_enable_env))

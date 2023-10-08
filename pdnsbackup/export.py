@@ -6,7 +6,8 @@ import boto3
 import pathlib
 import os
 import prometheus_client
-import datetime
+from datetime import date, timedelta, datetime
+
 
 logger = logging.getLogger("pdnsbackup")
 
@@ -28,7 +29,7 @@ def create_named(conf):
     return "\n\n".join(conf) +"\n\n"
 
 def export_file(cfg: dict, zones: dict):
-    logger.debug("backup to file is enabled")
+    logger.debug("export backup to file is enabled")
     namedconf = []
 
     # check if the output folder exists ? add it if missing
@@ -61,7 +62,7 @@ def export_file(cfg: dict, zones: dict):
     return True
 
 def export_s3(cfg: dict, zones: dict):
-    logger.debug("backup to s3 (%s) is enabled" % cfg["s3-endpoint-url"])
+    logger.debug("export backup to s3 (%s) is enabled" % cfg["s3-endpoint-url"])
 
     # create temp tar.gz file of all zones
     with tempfile.TemporaryDirectory() as dir:
@@ -91,26 +92,48 @@ def export_s3(cfg: dict, zones: dict):
             return False
         
         # upload tar.gz to S3
-        logger.debug("export s3 - uploading tar file..." )
+        logger.debug("export s3 - uploading file=%s to bucket=%s" % (filetar, cfg['s3-bucket-name']) )
         try:
-            s3 = boto3.resource('s3', 
+            s3 = boto3.client('s3', 
                                 endpoint_url=cfg['s3-endpoint-url'], 
                                 aws_access_key_id=cfg['s3-access-key-id'], 
                                 aws_secret_access_key=cfg['s3-secret-access-key'],
                                 verify=cfg['s3-ssl-verify'],
                                 region_name=cfg['s3-region-name'],
                             )
-            s3.Bucket(cfg['s3-bucket-name']).upload_file(temptar, f'{filetar}')
-
+            s3.upload_file(temptar, cfg['s3-bucket-name'], f'{filetar}')
             logger.info("export s3 - success" )
         except Exception as e:
             logger.error("export s3 upload - %s" % e)
             return False
+
+        if cfg["s3-backup-delete-older"] > 0:
+            logger.debug("export s3 - deleting backup older than %s days" % cfg["s3-backup-delete-older"])
+            try:
+                older_than_date = date.today() - timedelta(days=cfg["s3-backup-delete-older"])
+
+                s3_paginator = s3.get_paginator('list_object_versions')
+                s3_iterator = s3_paginator.paginate(Bucket=cfg['s3-bucket-name'])
+                filtered_iterator = s3_iterator.search(
+                    "Versions[?to_string(LastModified)<='\"%s\"'].{Key: Key,VersionId: VersionId}" % older_than_date
+                )
+                count = 0
+                for key_data in filtered_iterator:
+                    count+= 1
+                    _ = s3.delete_object(
+                        Bucket=cfg['s3-bucket-name'],
+                        Key=key_data['Key'],
+                        VersionId=key_data['VersionId'],
+                    )
+                logger.info("export s3 delete older - success - %s deleted" % count)
+            except Exception as e:
+                logger.error("export s3 delete - %s" % e)
+                return False
     
     return True
 
 def export_metrics(cfg: dict, zones: dict, status: bool):
-    logger.debug("open metrics are enabled")
+    logger.debug("export open metrics are enabled")
 
     registry = prometheus_client.CollectorRegistry()
 
@@ -160,7 +183,7 @@ def export_metrics(cfg: dict, zones: dict, status: bool):
             for k,v in zone["stats"]["rrtypes"].items():
                 metrics_rrtypes.labels(rrtype=k.upper()).inc(v)
 
-        metric_status.labels(date=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), error= int(not status)).set(1.0)
+        metric_status.labels(date=datetime.now().strftime('%Y-%m-%d %H:%M:%S'), error= int(not status)).set(1.0)
 
         prometheus_client.write_to_textfile(cfg["metrics-prom-file"], registry)
         logger.info("export metrics - success")

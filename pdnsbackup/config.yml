@@ -20,6 +20,7 @@ s3-bucket-name: "your_bucket"
 s3-access-key-id: 'your_access_key'
 s3-secret-access-key: 'your_secret_key'
 s3-backup-file: pdnsbackup-zones
+s3-backup-delete-older: 0
 
 metrics-enabled: false
 metrics-prom-file: /tmp/pdnsbackup.prom

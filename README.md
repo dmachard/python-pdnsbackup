@@ -50,6 +50,7 @@ This tool can be configurated with severals ways. See the default [config file](
 | PDNSBACKUP_S3_SECRET_ACCESS_KEY | your secret access key |
 | PDNSBACKUP_S3_BUCKET_NAME | bucket name |
 | PDNSBACKUP_S3_BACKUP_FILE | backup file name |
+| PDNSBACKUP_S3_BACKUP_DELETE_OLDER | delete backups older than xx days |
 | PDNSBACKUP_METRICS_ENABLED | export open metrics |
 | PDNSBACKUP_METRICS_PROM_FILE | write metrics to file path |
 
@@ -69,6 +70,7 @@ Install requirements and run-it
 ```bash
 python3 -m pip install -r requirements.txt
 python3 -c "import pdnsbackup; pdnsbackup.run();"
+python3 -c "import pdnsbackup; pdnsbackup.run();" -c tests/config.yml
 ```
 
 ## Build and run from docker image
