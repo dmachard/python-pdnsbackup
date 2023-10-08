@@ -20,7 +20,8 @@ logger = logging.getLogger("pdnsbackup")
 def setup_cli():
     """setup command-line arguments"""
     options = argparse.ArgumentParser()          
-    options.add_argument("-c", help="external config file")   
+    options.add_argument("-c", help="external config file")
+    options.add_argument("-e", help="env config file")   
     options.add_argument('-v', action='store_true', help="debug mode")
 
     return options
@@ -65,7 +66,7 @@ def setup_config(args, ignore_env=False):
     if ignore_env: return cfg
     
     # read config from environnement file ?
-    load_dotenv()
+    load_dotenv(dotenv_path=args.e)
 
     # then finally config from environment variables
     debug_env = os.getenv('PDNSBACKUP_DEBUG')

@@ -16,19 +16,13 @@ pip install pdnsbackup
 
 After installation, you can execute the `pdnsbackup` to start-it.
 
-## Docker run
-
-```bash
-sudo docker run --rm --env-file ./.env --name=pdnsbackup dmachard/pdnsbackup:latest
-```
-
 ## Configuration
 
 This tool can be configurated with severals ways. See the default [config file](/pdnsbackup/config.yml):
 
 - from external configuration file (`-c config` argument)
 
-- from environment variables
+- from environment variables (`-e env file` argument)
 
 | Variables | Description |
 | ------------- | ------------- |
@@ -54,6 +48,12 @@ This tool can be configurated with severals ways. See the default [config file](
 | PDNSBACKUP_METRICS_ENABLED | export open metrics |
 | PDNSBACKUP_METRICS_PROM_FILE | write metrics to file path |
 
+## Docker run
+
+```bash
+sudo docker run --rm --env-file ./.env --name=pdnsbackup dmachard/pdnsbackup:latest
+```
+
 ## Run from source
 
 Create a `.env` file to populate your variable
@@ -71,6 +71,7 @@ Install requirements and run-it
 python3 -m pip install -r requirements.txt
 python3 -c "import pdnsbackup; pdnsbackup.run();"
 python3 -c "import pdnsbackup; pdnsbackup.run();" -c tests/config.yml
+python3 -c "import pdnsbackup; pdnsbackup.run();" -e tests/.env
 ```
 
 ## Build and run from docker image
