@@ -34,6 +34,6 @@ async def fetch(cfg: dict):
             logger.error("fetch - %s" % e)
         finally:
             if conn is not None:
-                conn.close()
+                await conn.ensure_closed()
             logger.debug("gmysql - connection closed")
     return records
