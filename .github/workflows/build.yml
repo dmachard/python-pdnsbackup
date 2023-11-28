@@ -27,7 +27,7 @@ jobs:
    
     - name: Get short commit hash
       id: get_commit_hash
-      run: echo "$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      run: echo "data=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
     - name: Get latest tag
       id: get_latest_tag
