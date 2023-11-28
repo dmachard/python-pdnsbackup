@@ -1,5 +1,5 @@
 aiomysql==0.2.0
 python-dotenv==1.0.0
 pyyaml==6.0.1
-boto3==1.28.84
+boto3==1.29.7
 prometheus-client==0.19.0
