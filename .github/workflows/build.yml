@@ -1,9 +1,11 @@
 name: Build
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows:
+      - Testing
+    types:
+      - completed
 
 jobs:
 
@@ -19,9 +21,18 @@ jobs:
       run: |
         python -m pip install --upgrade pip setuptools wheel
         pip install twine jinja2
-        
-    - id: pkg_version
-      run: echo "data=$(echo ${{ github.event.release.tag_name }} | cut -c2-)" >> $GITHUB_OUTPUT
+   
+    - name: Get short commit hash
+      id: get_commit_hash
+      run: echo "::set-output name=commit_hash::$(git rev-parse --short HEAD)"
+
+    - name: Get latest tag
+      id: get_latest_tag
+      run: echo "::set-output name=latest_tag::$(git describe --tags --abbrev=0 ${{ steps.get_commit_hash.outputs.commit_hash }})"
+
+    - name: Set package version
+      id: pkg_version
+      run: echo "data=$(echo ${{ steps.get_latest_tag.outputs.latest_tag }}-${{ steps.get_commit_hash.outputs.commit_hash }})" >> $GITHUB_OUTPUT
 
     - name: Build Python package
       run: |
