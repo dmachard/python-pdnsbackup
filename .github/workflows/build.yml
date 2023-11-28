@@ -7,11 +7,6 @@ on:
   pull_request:
     branches:
       - main
-  workflow_run:
-    workflows:
-      - Testing
-    types:
-      - completed
 
 jobs:
 
@@ -19,6 +14,8 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     - uses: actions/setup-python@v4
       with:
         python-version: '3.12'
@@ -30,7 +27,7 @@ jobs:
    
     - name: Get short commit hash
       id: get_commit_hash
-      run: echo "::set-output name=commit_hash::$(git rev-parse --short HEAD)"
+      run: echo "$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
     - name: Get latest tag
       id: get_latest_tag
