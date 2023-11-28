@@ -35,7 +35,7 @@ jobs:
 
     - name: Set package version
       id: pkg_version
-      run: echo "data=$(echo ${{ steps.get_latest_tag.outputs.data }}-${{ steps.get_commit_hash.outputs.data }})" >> $GITHUB_OUTPUT
+      run: echo "data=$(echo ${{ steps.get_latest_tag.outputs.data }}-${{ steps.get_commit_hash.outputs.data }} | cut -c2- )" >> $GITHUB_OUTPUT
 
     - name: Build Python package
       run: |
