@@ -48,8 +48,8 @@ This tool can be configurated with severals ways. See the default [config file](
 | PDNSBACKUP_GMYSQL_USER | mysql user |
 | PDNSBACKUP_GMYSQL_PASSWORD | mysql password  |
 | PDNSBACKUP_FILE_ENABLED |  set to 1 enable backup to file, enabled by default |
-| PDNSBACKUP_FILE_PATH_BIND | zone bind path  |
-| PDNSBACKUP_FILE_PATH_OUTPUT | output folder |
+| PDNSBACKUP_FILE_PATH_BIND | zone bind path in named.conf  |
+| PDNSBACKUP_FILE_PATH_OUTPUT | output folder of the export |
 | PDNSBACKUP_S3_ENABLED |  set to 1 enable backup to S3 storage, disabled by default |
 | PDNSBACKUP_S3_ENDPOINT_URL | your s3 url |
 | PDNSBACKUP_S3_SSL_VERIFY | disable ssl verify |
