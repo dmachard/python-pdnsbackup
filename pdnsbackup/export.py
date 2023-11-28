@@ -7,7 +7,7 @@ import pathlib
 import os
 import prometheus_client
 from datetime import date, timedelta, datetime
-
+import shutil
 
 logger = logging.getLogger("pdnsbackup")
 
@@ -32,33 +32,45 @@ def export_file(cfg: dict, zones: dict):
     logger.debug("export backup to file is enabled")
     namedconf = []
 
-    # check if the output folder exists ? add it if missing
-    if not os.path.exists(f"{cfg['file-path-output']}"):
-        os.makedirs(f"{cfg['file-path-output']}")
-        logger.debug(f"export file - directory %s created!" % cfg['file-path-output'])
+    with tempfile.TemporaryDirectory() as dir:
+        try:
+            # iter over all zones
+            for name, zone in zones.items():
+                filename = f"{dir}/db.{name}"
+                
+                with open(filename, "w") as zf:
+                    zf.write(create_zone(zone))
 
-    try:
-        # cleanup the folder 
-        [f.unlink() for f in pathlib.Path(f"{cfg['file-path-output']}").glob("*") if f.is_file()] 
+                logger.debug(f"export file - add {filename}")
+                namedconf.append( default_named % (name, cfg["file-path-bind"], name) )
 
-        # iter over all zones
-        for name, zone in zones.items():
-            filename = f"{cfg['file-path-output']}/db.{name}"
-            
-            with open(filename, "w") as zf:
-                zf.write(create_zone(zone))
+            with open(f"{dir}/named.conf", "w") as bind_file:
+                bind_file.write( create_named(namedconf) )
 
-            logger.debug(f"export file - add {filename}")
-            namedconf.append( default_named % (name, cfg["file-path-bind"], name) )
+            logger.info(f"export file - created in tmp with success")
+        except Exception as e:
+            logger.error("export file - %s" % e)
+            return False
 
-        with open(f"{cfg['file-path-output']}/named.conf", "w") as bind_file:
-            bind_file.write( create_named(namedconf) )
+        try:
+            # check if the output folder exists ? add it if missing
+            if not os.path.exists(f"{cfg['file-path-output']}"):
+                os.makedirs(f"{cfg['file-path-output']}")
+                logger.debug(f"export file - directory %s created!" % cfg['file-path-output'])
 
-        logger.info(f"export file - success")
-    except Exception as e:
-        logger.error("export file - %s" % e)
-        return False
-    
+            # cleanup the folder 
+            [f.unlink() for f in pathlib.Path(f"{cfg['file-path-output']}").glob("*") if f.is_file()] 
+
+            # move all files
+            for f in pathlib.Path(dir).glob("*"):
+                shutil.move(f, os.path.join(cfg['file-path-output'], f.name))
+                logger.debug(f"export file - moved {f.name} to {cfg['file-path-output']}")
+
+            logger.info(f"export file - success")
+        except Exception as e:
+            logger.error("export file - copy failed %s" % e)
+            return False
+        
     return True
 
 def export_s3(cfg: dict, zones: dict):
