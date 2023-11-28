@@ -31,11 +31,11 @@ jobs:
 
     - name: Get latest tag
       id: get_latest_tag
-      run: echo "::set-output name=latest_tag::$(git describe --tags --abbrev=0 ${{ steps.get_commit_hash.outputs.data }})"
+      run: echo "data=$(git describe --tags --abbrev=0 ${{ steps.get_commit_hash.outputs.data }})" >> $GITHUB_OUTPUT
 
     - name: Set package version
       id: pkg_version
-      run: echo "data=$(echo ${{ steps.get_latest_tag.outputs.latest_tag }}-${{ steps.get_commit_hash.outputs.commit_hash }})" >> $GITHUB_OUTPUT
+      run: echo "data=$(echo ${{ steps.get_latest_tag.outputs.data }}-${{ steps.get_commit_hash.outputs.data }})" >> $GITHUB_OUTPUT
 
     - name: Build Python package
       run: |
