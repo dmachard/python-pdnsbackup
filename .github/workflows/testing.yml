@@ -36,12 +36,14 @@ jobs:
 
     strategy:
       matrix:
-        pdns-version: [ "48" ]
+        pdns-version: [ "48", "49" ]
         python: [ '3.11', '3.12' ]
         include:
         - pdns-version: "48"
           branch: "auth-4.8.x"
-
+        - pdns-version: "49"
+          branch: "auth-4.9.x"
+      
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
