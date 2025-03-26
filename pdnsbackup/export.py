@@ -8,6 +8,7 @@ import os
 import prometheus_client
 from datetime import date, timedelta, datetime
 import shutil
+from botocore.config import Config
 
 logger = logging.getLogger("pdnsbackup")
 
