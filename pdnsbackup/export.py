@@ -8,6 +8,7 @@ import os
 import prometheus_client
 from datetime import date, timedelta, datetime
 import shutil
+from botocore.config import Config
 
 logger = logging.getLogger("pdnsbackup")
 
@@ -112,6 +113,7 @@ def export_s3(cfg: dict, zones: dict):
                                 aws_secret_access_key=cfg['s3-secret-access-key'],
                                 verify=cfg['s3-ssl-verify'],
                                 region_name=cfg['s3-region-name'],
+                                config=Config(request_checksum_calculation="when_required", response_checksum_validation="when_required")
                             )
             s3.upload_file(temptar, cfg['s3-bucket-name'], f'{filetar}')
             logger.info("export s3 - success" )
